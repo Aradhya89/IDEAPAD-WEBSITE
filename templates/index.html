@@ -37,13 +37,13 @@
         }
 
         .glass-nav {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(32, 30, 30, 0.404);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .hero-glow {
-            background: radial-gradient(circle at 50% 50%, rgba(241, 23, 48, 0.1) 5%, transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(241, 23, 48, 0.15) 5%, transparent 70%);
         }
 
         @keyframes slideLoop {
@@ -107,6 +107,7 @@
 <body>
 
 
+
     <div class="min-h-screen bg-black text-white font-inter relative overflow-x-hidden">
 
         <!-- Global Background -->
@@ -123,20 +124,28 @@
                 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[80px] opacity-20">
 
             </div>
+                       <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-red-600/5 rounded-full blur-[140px]"></div>
 
         </div>
-        <!-- 
-<header class="fixed top-4 md:top-6 left-0 w-full z-50 px-4 md:px-6">
-    <nav class="max-w-6xl mx-auto bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-2 md:py-3 flex items-center justify-between shadow-[0_4px_30px_rgba(0,0,0,0.1)] relative"> -->
+                    <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_50s_linear_infinite]"></div>
 
+    <div class="fixed inset-x-0 top-0 h-8
+                bg-gradient-to-b from-black via-black/40 to-transparent
+                pointer-events-none z-50 ">
+    </div>
+
+    
         <!-- Floating Navbar -->
         <header class="fixed top-4 md:top-6 left-0 w-full z-50 px-4 md:px-6">
+
+
             <nav
                 class="max-w-6xl mx-auto glass-nav rounded-full px-6 py-2 md:py-3 flex items-center justify-between shadow-lg relative">
                 <a href="#" id="nav-logo-link" class="flex items-center gap-2">
                     <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png"
                         alt="IDEAPAD Logo" class="h-6 md:h-10">
                 </a>
+                
 
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#" id="nav-home-link"
@@ -215,8 +224,33 @@
         </header>
 
         <main class="relative z-10">
-            <!-- Hero Section --> 
-            <section class="min-h-screen flex items-center pt-24 px-6 md:py-16">
+            <!-- Hero Section -->
+                 <!-- Background Glow -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+
+<!-- Top Left Red Glow -->
+<div
+    class="absolute -top-40 -left-40
+           w-[500px] h-[500px]
+           rounded-full
+           bg-[#0b5394]/20
+           
+           blur-[150px]
+           pointer-events-none">
+</div>
+
+<!-- Top Right Blue Glow -->
+<div
+    class="absolute -top-40 -right-40
+           w-[500px] h-[500px]
+           rounded-full
+           bg-[#ef233c]/20
+           blur-[150px]
+           pointer-events-none">
+</div>
+
+    </div>
+            <section class="min-h-screen flex items-center pt-24 px-6 md:pt-24">
                 <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                     <!-- Hero Info -->
                     <div class="hero-glow py-8 lg:p-12 text-left">
@@ -234,7 +268,7 @@
                             <span
                                 class="text-transparent bg-clip-text bg-gradient-to-r from-[#ef233c] to-white">HACKATHON</span>
                             <br />
-                            <span class="text-zinc-800 opacity-50">SOLOQON</span>
+                            <!-- <span class="text-zinc-800 opacity-50">SOLOQON</span> -->
                         </h1>
                         <p class="text-base md:text-xl text-zinc-400 max-w-lg mb-8 md:mb-12 font-light leading-relaxed">
                             The proving ground for visionaries. 48 hours to bridge imagination and implementation.
@@ -247,8 +281,15 @@
                     </div>
 
                     <!-- Next Hackathon Card -->
+                    <!--                    <div class="relative">
+                        <div class="absolute -inset-4 bg-[#ef233c]/20 blur-3xl rounded-full opacity-30"></div>
+                        <div class="relative bg-zinc-950 border border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl">
+                            <div class="h-64 overflow-hidden relative group">
+                                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1200" alt="Next Event" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-tighter">Featured Event</div>
+                            </div> -->
 
-                    <div class="relative">
+                    <div class="relative lg:scale-[0.9]">
                         <div class="absolute -inset-4 bg-[#ef233c]/10 blur-2xl rounded-full opacity-20"></div>
                         <div
                             class="relative bg-zinc-950/80 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-lg">
@@ -263,7 +304,8 @@
                             <div class="p-6 md:p-8">
                                 <div class="flex justify-between items-start mb-6">
                                     <div>
-                                        <h3 class="text-2xl md:text-3xl font-bold font-manrope mb-1">SOLOQON 2.0</h3>
+                                        <h3 class="text-2xl md:text-3xl font-bold font-manrope mb-1">SOLOQON 2.0
+                                        </h3>
                                         <p class="text-zinc-500 text-xs">The AI & Cloud Summit</p>
                                     </div>
                                     <div class="text-right">
@@ -277,21 +319,26 @@
                                     <p
                                         class="text-[9px] font-bold text-zinc-500 uppercase mb-4 tracking-[0.2em] text-center">
                                         Registration Closes In</p>
-                                    <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-6">
+                                    <div class="flex flex-row justify-center gap-3 sm:gap-4 md:gap-6">
                                         <!-- Timer Boxes -->
                                         <div class="flex-1 bg-black border border-white/10 p-3 rounded-xl text-center">
-                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-white">48</div>
+                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-white">48
+                                            </div>
                                             <p class="text-[8px] uppercase tracking-tighter text-zinc-600">Hours</p>
                                         </div>
                                         <div class="flex-1 bg-black border border-white/10 p-3 rounded-xl text-center">
-                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-white">32</div>
-                                            <p class="text-[8px] uppercase tracking-tighter text-zinc-600">Minutes</p>
+                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-white">32
+                                            </div>
+                                            <p class="text-[8px] uppercase tracking-tighter text-zinc-600">Minutes
+                                            </p>
                                         </div>
                                         <div
                                             class="flex-1 bg-black border border-[#ef233c]/30 p-3 rounded-xl text-center">
-                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-[#ef233c]">15
+                                            <div class="text-3xl md:text-4xl font-bold font-manrope text-[#ef233c]">
+                                                15
                                             </div>
-                                            <p class="text-[8px] uppercase tracking-tighter text-zinc-600">Seconds</p>
+                                            <p class="text-[8px] uppercase tracking-tighter text-zinc-600">Seconds
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -303,11 +350,12 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </section>
 
             <!-- Stats Section -->
-            <section class="py-14 px-6">
+            <section class="py-14 px-6" hero>
                 <div class="max-w-7xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold font-manrope uppercase tracking-tighter mb-4 text-left">
                         Key Impact & Metrics</h2>
@@ -507,8 +555,7 @@
                     <h4 class="text-[10px] font-bold text-white uppercase tracking-[0.2em] mb-6">Navigation</h4>
                     <ul class="space-y-3">
                         <li><a href="#" id="l-1" class="text-[11px] text-zinc-500 hover:text-white">Our Process</a></li>
-                        <li><a href="#" id="l-2" class="text-[11px] text-zinc-500 hover:text-white">Past Winners</a>
-                        </li>
+                        <li><a href="#" id="l-2" class="text-[11px] text-zinc-500 hover:text-white">Past Winners</a></li>
                         <li><a href="#" id="l-3" class="text-[11px] text-zinc-500 hover:text-white">Contact Us</a></li>
                     </ul>
                 </div>

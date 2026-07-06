@@ -33,7 +33,7 @@ google = oauth.register(
 @app.route("/")
 def home():
     userdata = session.get("userdata",None)
-    return render_template("indextemp.html", user = userdata)
+    return render_template("index.html", user = userdata)
 
 
 
