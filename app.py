@@ -32,8 +32,10 @@ google = oauth.register(
 # home page
 @app.route("/")
 def home():
+    event_date = "2026-07-20T10:00:00"
+    # f"{date}T{time}"
     userdata = session.get("userdata",None)
-    return render_template("index.html", user = userdata)
+    return render_template("index.html", user = userdata, event_date = event_date )
 
 
 

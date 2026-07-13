@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+  <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -98,6 +98,140 @@ function googleLogin() {
     window.location.href = "googlelogin";
 }
 </script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - IDEAPAD Hackathon</title>
+
+    <!-- Tailwind & Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent-red: #ef233c;
+            --accent-teal: #0b5394;
+        }
+
+        /* Star Animation Background */
+        @keyframes animStar {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-2000px); }
+        }
+
+        .stars-1 {
+            box-shadow: 234px 124px #fff, 654px 345px #fff, 876px 12px #fff, 1200px 800px #fff, 400px 1500px #fff, 1800px 200px #fff, 100px 1000px #fff, 900px 1900px #fff, 500px 600px #fff, 1400px 100px #fff, 300px 400px #fff, 1600px 1200px #fff;
+        }
+
+        body {
+            background: #090909;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Hover Effect for the Google Button */
+        .google-btn-hover:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white font-inter relative overflow-hidden flex flex-col">
+
+    <!-- Global Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_60s_linear_infinite]"></div>
+        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_50s_linear_infinite]"></div>
+        
+        <!-- Glowing Orbs -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#ef233c]/5 rounded-full blur-[140px]"></div>
+        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-[#0b5394]/20 blur-[150px]"></div>
+    </div>
+
+    <!-- Minimal Nav / Branding -->
+    <header class="absolute top-6 left-0 w-full z-50 px-6">
+        <div class="max-w-6xl mx-auto flex justify-center md:justify-start">
+            <a href="/" class="flex items-center gap-2">
+                <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png" 
+                     alt="IDEAPAD Logo" 
+                     class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Login Content -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4">
+        <!-- Glassmorphic Card -->
+        <div class="w-full max-w-md bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl fade-in text-center relative overflow-hidden">
+            
+            <!-- Card Inner Glow Accent -->
+            <div class="absolute -top-20 -right-20 w-40 h-40 bg-[#ef233c]/20 blur-[50px] rounded-full pointer-events-none"></div>
+
+            <!-- Tagline Badge -->
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8">
+                <span class="text-[9px] font-bold text-zinc-300 uppercase tracking-[0.2em] flex items-center gap-2">
+                    <iconify-icon icon="lucide:lock" class="text-zinc-400"></iconify-icon>
+                    Authentication
+                </span>
+            </div>
+
+            <!-- Headers -->
+            <h1 class="text-3xl md:text-4xl font-black font-manrope tracking-tighter mb-3">
+                Welcome Back
+            </h1>
+            <p class="text-sm text-zinc-400 mb-10 font-light leading-relaxed">
+                Sign in to access your IDEAPAD dashboard and continue building the future.
+            </p>
+
+            <!-- Google Login Button -->
+            <button onclick="googleLogin()" class="google-btn-hover w-full py-4 px-6 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center gap-4 transition-all duration-300 group shadow-lg active:scale-95">
+                <div class="bg-white p-1.5 rounded-full flex items-center justify-center">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="w-4 h-4">
+                </div>
+                <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-300 group-hover:text-white transition-colors">
+                    Continue with Google
+                </span>
+            </button>
+
+            <!-- Footer Note -->
+            <div class="mt-8 pt-6 border-t border-white/5">
+                <p class="text-[9px] uppercase tracking-[0.2em] text-zinc-600">
+                    Secure authentication powered by Google
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    function googleLogin() {
+        // Replace this URL with your backend OAuth endpoint
+        window.location.href = "googlelogin";
+    }
+    </script>
 
 </body>
 </html>

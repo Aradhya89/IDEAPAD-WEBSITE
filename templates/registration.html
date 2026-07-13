@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -160,4 +160,222 @@
     </script>
 </body>
 
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - IDEAPAD Hackathon</title>
+
+    <!-- Tailwind & Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent-red: #ef233c;
+            --accent-teal: #0b5394;
+        }
+
+        /* Star Animation Background */
+        @keyframes animStar {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-2000px); }
+        }
+
+        .stars-1 {
+            box-shadow: 234px 124px #fff, 654px 345px #fff, 876px 12px #fff, 1200px 800px #fff, 400px 1500px #fff, 1800px 200px #fff, 100px 1000px #fff, 900px 1900px #fff, 500px 600px #fff, 1400px 100px #fff, 300px 400px #fff, 1600px 1200px #fff;
+        }
+
+        body {
+            background: #090909;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom scrollbar for selects */
+        select option {
+            background-color: #090909;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-white font-inter relative overflow-x-hidden flex flex-col">
+
+    <!-- Global Background Elements -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_60s_linear_infinite]"></div>
+        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_50s_linear_infinite]"></div>
+        
+        <!-- Glowing Orbs -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-red-600/5 rounded-full blur-[140px]"></div>
+        <div class="absolute -top-40 -left-40 w-[450px] h-[450px] rounded-full bg-[#0b5394]/20 blur-[150px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="absolute top-6 left-0 w-full z-50 px-6">
+        <div class="max-w-6xl mx-auto flex justify-center md:justify-start">
+            <a href="/" class="flex items-center gap-2">
+                <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png" 
+                     alt="IDEAPAD Logo" 
+                     class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-24">
+        
+        <div class="w-full max-w-lg relative">
+            <!-- Glow behind the card -->
+            <div class="absolute -inset-1 bg-[#ef233c]/10 blur-2xl rounded-full opacity-30"></div>
+            
+            <!-- Glassmorphic Card -->
+            <div class="relative bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl fade-in">
+                
+                <div class="mb-8 text-center">
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-red-600/5 border border-red-600/20 mb-4">
+                        <span class="text-[9px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                            Secure Your Spot
+                        </span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-black font-manrope tracking-tighter mb-2">Event Registration</h2>
+                    <p class="text-xs text-zinc-400 font-light">Join the proving ground for visionaries.</p>
+                </div>
+
+                <form id="form" class="space-y-5">
+                    
+                    <!-- Full Name -->
+                    <div class="space-y-2">
+                        <label for="name" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" value="{{ user.name }}" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
+                    </div>
+
+                    <!-- Roll Number -->
+                    <div class="space-y-2">
+                        <label for="rollno" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Roll Number</label>
+                        <input type="text" id="rollno" name="rollno" placeholder="Enter roll number" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
+                    </div>
+
+                    <!-- Batch & Branch Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Batch -->
+                        <div class="space-y-2">
+                            <label for="batch" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Batch</label>
+                            <select id="batch" name="batch" required
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select Batch</option>
+                                <option>2023 - 2027</option>
+                                <option>2024 - 2028</option>
+                                <option>2025 - 2029</option>
+                                <option>2026 - 2030</option>
+                            </select>
+                        </div>
+
+                        <!-- Branch -->
+                        <div class="space-y-2">
+                            <label for="branch" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Branch</label>
+                            <select id="branch" name="branch" required
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all appearance-none cursor-pointer">
+                                <option value="" disabled selected>Select Branch</option>
+                                <option>Computer Science Engineering</option>
+                                <option>Information Technology</option>
+                                <option>Electronics & Communication</option>
+                                <option>Electrical Engineering</option>
+                                <option>Mechanical Engineering</option>
+                                <option>Civil Engineering</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="space-y-2">
+                        <label for="email" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email" value="{{ user.email }}" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-4">
+                        <button type="submit"
+                            class="w-full py-4 bg-[#ef233c] hover:bg-red-700 text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] transition-all shadow-[0_0_20px_rgba(239,35,60,0.3)] hover:shadow-[0_0_30px_rgba(239,35,60,0.5)] active:scale-95">
+                            Register Now
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        const form = document.getElementById("form");
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+            
+            // Optional: Add a loading state to the button here if desired
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "PROCESSING...";
+            submitBtn.style.opacity = "0.7";
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const status = await fetch("/formdata", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (status.ok){
+                    window.location.href = "/";
+                } else {
+                    // Handle error visually if needed
+                    submitBtn.innerText = "ERROR - TRY AGAIN";
+                    submitBtn.style.backgroundColor = "#52525b"; // zinc-600
+                    setTimeout(() => {
+                        submitBtn.innerText = originalText;
+                        submitBtn.style.backgroundColor = "";
+                        submitBtn.style.opacity = "1";
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error("Submission failed", error);
+                submitBtn.innerText = "CONNECTION ERROR";
+                setTimeout(() => {
+                    submitBtn.innerText = originalText;
+                    submitBtn.style.opacity = "1";
+                }, 3000);
+            }
+        });
+    </script>
+</body>
 </html>
