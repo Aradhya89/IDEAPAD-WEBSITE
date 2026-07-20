@@ -7,7 +7,7 @@
     <title>IDEAPAD Hackathon</title>
 
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -151,7 +151,7 @@
                 class="max-w-6xl mx-auto glass-nav rounded-full px-6 py-2 md:py-3 flex items-center justify-between shadow-lg relative">
                 <a href="#" id="nav-logo-link" class="flex items-center gap-2">
                     <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png"
-                        alt="IDEAPAD Logo" class="h-6 md:h-10">
+                        alt="IDEAPAD Logo" class="h-7 md:h-10">
                 </a>
 
 
@@ -263,6 +263,7 @@
            w-[450px] h-[450px]
            rounded-full
            bg-[#0b5394]/30
+           md:bg-[#0b5394]/40
            blur-[150px]
            pointer-events-none">
                 </div>
@@ -307,7 +308,7 @@
                         </div>
                     </div>
 
-    
+
                     <div class="relative ">
                         <div class="absolute -inset-4 bg-[#ef233c]/20 blur-2xl rounded-full opacity-80"></div>
                         <div
@@ -338,7 +339,8 @@
                                     <p
                                         class="text-[9px] font-bold text-zinc-500 uppercase mb-4 tracking-[0.2em] text-center">
                                         Registration Closes In</p>
-                                    <div class="flex scale-[0.85] md:scale-[1] flex-row justify-center gap-3 sm:gap-4 md:gap-6">
+                                    <div
+                                        class="flex scale-[0.85] md:scale-[1] flex-row justify-center gap-3 sm:gap-4 md:gap-6">
                                         <!-- Timer Boxes -->
                                         <div class="flex-1 bg-black border border-white/10 p-3 rounded-xl text-center">
                                             <div id="days"
@@ -395,7 +397,7 @@
                 <div class="absolute inset-0 pointer-events-none">
 
                     <div
-                        class="absolute left-1/2 top-20 -translate-x-1/2 w-[1200px] h-[900px] md:h-[300px] bg-[#0b5394]/30 blur-[160px] rounded-full mix-blend-screen">
+                        class="absolute left-1/2 top-20 -translate-x-1/2 w-[1200px] h-[700px] items-center justify-center md:h-[300px] bg-[#0b5394]/30 blur-[160px] rounded-full mix-blend-screen">
                     </div>
 
 
@@ -437,6 +439,10 @@
                     <p class="text-zinc-500 mb-10 text-left text-sm">Be a part of our upcoming innovation sprints.</p>
 
                     <div class="grid grid-cols-1  sm:grid-cols-3 gap-6">
+                        <div
+                            class="absolute left-1/2 top-20 -translate-x-1/2 w-[1200px] h-[1400px] md:h-[300px] bg-[#ef233c]/10 blur-[160px]  items-center justify-center rounded-full mix-blend-screen">
+                        </div>
+
 
                         <!-- Card 1 -->
                         <div

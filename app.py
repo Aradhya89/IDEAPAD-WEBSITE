@@ -3,19 +3,122 @@ from flask import Flask , render_template, request, redirect, session, url_for
 from authlib.integrations.flask_client import OAuth
 import os
 import dotenv
+import psycopg2
+from psycopg2.pool import SimpleConnectionPool
+from flask import g
+from psycopg2.extras import RealDictCursor
 
-
-
-dotenv.load_dotenv()
 
 
 app = Flask(__name__)
+dotenv.load_dotenv()
 
 
 app.secret_key = os.getenv("SECRETKEY")
 
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+db_pool = SimpleConnectionPool(
+    minconn=1,
+    maxconn=5,
+    dsn=DATABASE_URL
+)
+
+def get_db():
+    if "db" not in g:
+        g.db = db_pool.getconn()
+    return g.db
+
+@app.teardown_appcontext
+def close_db(exception):
+    conn = g.pop("db", None)
+
+    if conn is not None:
+        db_pool.putconn(conn)
+
+
+
+
+class database:
+    def tableformation():
+        conn = get_db()
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+                            CREATE TABLE if not exists users (
+    email VARCHAR(255) PRIMARY KEY,
+
+    google_id VARCHAR(50) UNIQUE NOT NULL,
+
+    full_name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+
+    profile_picture TEXT,
+
+    email_verified BOOLEAN DEFAULT FALSE,
+
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+
+    last_login TIMESTAMPTZ DEFAULT NOW())
+
+            """)
+
+        conn.commit()
+
+
+
+    def save_user(user):
+        conn = get_db()
+
+        with conn.cursor( ) as cur:
+
+            cur.execute("""
+                INSERT INTO users(
+                    email,
+                    google_id,
+                    full_name,
+                    first_name,
+                    last_name,
+                    profile_picture,
+                    email_verified
+                )
+                VALUES (%s,%s,%s,%s,%s,%s,%s)
+
+                ON CONFLICT(email)
+
+                DO UPDATE SET
+
+                    full_name = EXCLUDED.full_name,
+                    first_name = EXCLUDED.first_name,
+                    last_name = EXCLUDED.last_name,
+                    profile_picture = EXCLUDED.profile_picture,
+                    email_verified = EXCLUDED.email_verified,
+                    last_login = NOW();
+
+            """, (
+
+                user["email"],
+                user["sub"],
+                user["name"],
+                user.get("given_name"),
+                user.get("family_name"),
+                user.get("picture"),
+                user.get("email_verified")
+
+            ))
+
+        conn.commit()
+
+
+
 # authenticator init.
 oauth = OAuth(app)
+
+with app.app_context():
+    database.tableformation()
 
 # google authenticator setup
 google = oauth.register(
@@ -32,7 +135,7 @@ google = oauth.register(
 # home page
 @app.route("/")
 def home():
-    event_date = "2026-07-20T10:00:00"
+    event_date = "2026-08-20T10:00:00"
     # f"{date}T{time}"
     userdata = session.get("userdata",None)
     return render_template("index.html", user = userdata, event_date = event_date )
@@ -41,7 +144,7 @@ def home():
 
 @app.before_request
 def require_login():    
-    allowed_routes = ["login","home","googlelogin","callback","logout"]
+    allowed_routes = ["login","home","googlelogin","callback","logout","static"]
 
     if request.endpoint in allowed_routes:
         return
@@ -72,11 +175,11 @@ def callback():
 
     resp = google.get("https://www.googleapis.com/oauth2/v3/userinfo")
     data = resp.json()
-    print(data) #just printing the data only here -> no database, no storing
+    # print(data) #just printing the data only here -> no database, no storing
     session["userdata"] = data
     session["user"] = data["name"]
-    session["email"] = data["email"]
-    session["picture"]  = data["picture"]
+    database.tableformation()
+    database.save_user(data)
     return redirect(url_for("home"))
 
 

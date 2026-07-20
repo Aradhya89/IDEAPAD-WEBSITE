@@ -109,7 +109,7 @@ function googleLogin() {
     <title>Login - IDEAPAD Hackathon</title>
 
     <!-- Tailwind & Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/output.css') }}">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,7 +178,7 @@ function googleLogin() {
             <a href="/" class="flex items-center gap-2">
                 <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png" 
                      alt="IDEAPAD Logo" 
-                     class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                     class="h-14 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
             </a>
         </div>
     </header>
