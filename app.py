@@ -1,7 +1,7 @@
 # from flask import Flask , render_template , request
 from flask import Flask , render_template, request, redirect, session, url_for
 from authlib.integrations.flask_client import OAuth
-import pandas as pd
+# import pandas as pd
 import os
 import dotenv
 import psycopg2
