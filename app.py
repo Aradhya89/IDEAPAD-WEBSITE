@@ -112,6 +112,92 @@ class database:
 
         conn.commit()
 
+    @staticmethod
+    def registration_table():
+        conn = get_db()
+
+        with conn.cursor() as cur:
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS registrations(
+
+                email VARCHAR(255) PRIMARY KEY,
+
+                full_name VARCHAR(255) NOT NULL,
+                rollno VARCHAR(50) NOT NULL,
+                batch VARCHAR(30) NOT NULL,
+                branch VARCHAR(100) NOT NULL,
+
+                registered_at TIMESTAMPTZ DEFAULT NOW(),
+                updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+                FOREIGN KEY(email)
+                REFERENCES users(email)
+                ON DELETE CASCADE
+
+            );
+            """)
+
+        conn.commit()
+        
+    @staticmethod
+    def save_registration(data):
+
+        conn = get_db()
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+
+            INSERT INTO registrations(
+
+                email,
+                full_name,
+                rollno,
+                batch,
+                branch
+
+            )
+
+            VALUES(%s,%s,%s,%s,%s)
+
+            ON CONFLICT(email)
+
+            DO UPDATE SET
+
+                full_name = EXCLUDED.full_name,
+                rollno = EXCLUDED.rollno,
+                batch = EXCLUDED.batch,
+                branch = EXCLUDED.branch,
+                updated_at = NOW();
+
+            """,(
+
+                data["email"],
+                data["name"],
+                data["rollno"],
+                data["batch"],
+                data["branch"]
+
+            ))
+
+        conn.commit()
+    @staticmethod
+    def get_registration(email):
+
+        conn = get_db()
+
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+
+            cur.execute("""
+
+            SELECT *
+            FROM registrations
+            WHERE email=%s
+
+            """,(email,))
+
+            return cur.fetchone()
+
 
 
 # authenticator init.
@@ -119,6 +205,7 @@ oauth = OAuth(app)
 
 with app.app_context():
     database.tableformation()
+    database.registration_table()
 
 # google authenticator setup
 google = oauth.register(
@@ -178,21 +265,43 @@ def callback():
     # print(data) #just printing the data only here -> no database, no storing
     session["userdata"] = data
     session["user"] = data["name"]
-    database.tableformation()
+        
     database.save_user(data)
     return redirect(url_for("home"))
 
 
 @app.route("/registration")
 def eventform():
+
     userdata = session.get("userdata")
-    return render_template("registration.html", user = userdata)
+
+    registration = database.get_registration(userdata["email"])
+
+    return render_template(
+        "registration.html",
+        user=userdata,
+        registration=registration
+    )   
 
 @app.route("/formdata",methods = ["POST"])
 def formdata():
+
     data = request.get_json()
-    print(data)#for debbuging
-    return "successful"
+
+    logged_in_email = session["userdata"]["email"]
+
+    if data["email"] != logged_in_email:
+
+        return {
+            "success": False,
+            "message": "Email does not match logged in account."
+        }, 400
+
+    database.save_registration(data)
+
+    return {
+        "success": True
+    }
     
 
 @app.route("/logout")
