@@ -1,168 +1,6 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        body {
-            background: #f4f6f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 420px;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
-            color: #444;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-        }
-
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <div class="container">
-
-        <h2>Event Registration</h2>
-
-        <form id="form">
-
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" value="{{ user.name }}" required>
-            </div>
-
-            <div class="form-group">
-                <label for="rollno">Roll Number</label>
-                <input type="text" id="rollno" name="rollno" placeholder="Enter roll number" required>
-            </div>
-
-            <div class="form-group">
-                <label for="batch">Batch</label>
-                <select id="batch" name="batch" required>
-                    <option value="">Select Batch</option>
-                    <option>2023 - 2027</option>
-                    <option>2024 - 2028</option>
-                    <option>2025 - 2029</option>
-                    <option>2026 - 2030</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="branch">Branch</label>
-                <select id="branch" name="branch" required>
-                    <option value="">Select Branch</option>
-                    <option>Computer Science Engineering</option>
-                    <option>Information Technology</option>
-                    <option>Electronics & Communication</option>
-                    <option>Electrical Engineering</option>
-                    <option>Mechanical Engineering</option>
-                    <option>Civil Engineering</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter email" value="{{ user.email }}" required>
-            </div>
-
-            <button type="submit">
-                Register
-            </button>
-
-        </form>
-
-    </div>
-    <script>
-        const form = document.getElementById("form");
-
-        form.addEventListener("submit", async function (event) {
-            event.preventDefault();
-            const formData = new FormData(form);
-
-            const data = Object.fromEntries(formData.entries());
-
-            const status = await fetch("/formdata", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-            
-            if (status.ok){
-                window.location.href = "/"
-            };
-        })
-
-    </script>
-</body>
-
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -174,7 +12,9 @@
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -184,8 +24,13 @@
 
         /* Star Animation Background */
         @keyframes animStar {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-2000px); }
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(-2000px);
+            }
         }
 
         .stars-1 {
@@ -200,16 +45,28 @@
             background-size: 40px 40px;
         }
 
-        .font-manrope { font-family: 'Manrope', sans-serif; }
-        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-manrope {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
 
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Custom scrollbar for selects */
@@ -219,15 +76,22 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-black text-white font-inter relative overflow-x-hidden flex flex-col">
 
     <!-- Global Background Elements -->
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_60s_linear_infinite]"></div>
-        <div class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_50s_linear_infinite]"></div>
-        
+        <div
+            class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_60s_linear_infinite]">
+        </div>
+        <div
+            class="absolute top-0 left-0 w-[1px] h-[1px] bg-transparent stars-1 animate-[animStar_50s_linear_infinite]">
+        </div>
+
         <!-- Glowing Orbs -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-red-600/5 rounded-full blur-[140px]"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-red-600/5 rounded-full blur-[140px]">
+        </div>
         <div class="absolute -top-40 -left-40 w-[450px] h-[450px] rounded-full bg-[#0b5394]/20 blur-[150px]"></div>
     </div>
 
@@ -235,47 +99,55 @@
     <header class="absolute top-6 left-0 w-full z-50 px-6">
         <div class="max-w-6xl mx-auto flex justify-center md:justify-start">
             <a href="/" class="flex items-center gap-2">
-                <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png" 
-                     alt="IDEAPAD Logo" 
-                     class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+                <img src="https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/uploads/a8b9b116-1d12-4d85-92af-af6d78711844/1783185929429-dd3519f9/ideapadlogo.png"
+                    alt="IDEAPAD Logo" class="h-8 md:h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
             </a>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-24">
-        
+
         <div class="w-full max-w-lg relative">
             <!-- Glow behind the card -->
             <div class="absolute -inset-1 bg-[#ef233c]/10 blur-2xl rounded-full opacity-30"></div>
-            
+
             <!-- Glassmorphic Card -->
-            <div class="relative bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl fade-in">
-                
+            <div
+                class="relative bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 md:p-10 shadow-2xl fade-in">
+
                 <div class="mb-8 text-center">
                     <div class="inline-block px-4 py-1.5 rounded-full bg-red-600/5 border border-red-600/20 mb-4">
-                        <span class="text-[9px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-2">
+                        <span
+                            class="text-[9px] font-bold text-red-500 uppercase tracking-widest flex items-center gap-2">
                             <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                             Secure Your Spot
                         </span>
                     </div>
-                    <h2 class="text-3xl md:text-4xl font-black font-manrope tracking-tighter mb-2">Event Registration</h2>
+                    <h2 class="text-3xl md:text-4xl font-black font-manrope tracking-tighter mb-2">Event Registration
+                    </h2>
                     <p class="text-xs text-zinc-400 font-light">Join the proving ground for visionaries.</p>
                 </div>
 
                 <form id="form" class="space-y-5">
-                    
+
                     <!-- Full Name -->
                     <div class="space-y-2">
-                        <label for="name" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Full Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name" value="{{ registration.full_name if registration else user.name }}" required
+                        <label for="name"
+                            class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Full
+                            Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name"
+                            value="{{ registration.full_name if registration else user.name }}" required
                             class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
                     </div>
 
                     <!-- Roll Number -->
                     <div class="space-y-2">
-                        <label for="rollno" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Roll Number</label>
-                        <input type="text" id="rollno" name="rollno" placeholder="Enter roll number" value="{{ registration.rollno if registration else '' }}"
+                        <label for="rollno"
+                            class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Roll
+                            Number</label>
+                        <input type="text" id="rollno" name="rollno" placeholder="Enter roll number"
+                            value="{{ registration.rollno if registration else '' }}"
                             class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
                     </div>
 
@@ -283,39 +155,86 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <!-- Batch -->
                         <div class="space-y-2">
-                            <label for="batch" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Batch</label>
-                            <select id="batch" name="batch" required 
+                            <label for="batch"
+                                class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Batch</label>
+                            <select id="batch" name="batch" required
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all appearance-none cursor-pointer">
+
+                                <!-- saving for normal html or react 
                                 <option value="" disabled selected>Select Batch</option>
                                 <option>2023 - 2027</option>
                                 <option>2024 - 2028</option>
                                 <option>2025 - 2029</option>
-                                <option>2026 - 2030</option>
+                                <option>2026 - 2030</option> -->
+
+                                <!-- jinja  -->
+                                <option value="" disabled {% if not registration %}selected{% endif %}>
+                                    Select Batch
+                                </option>
+
+                                {% for batch in [
+                                "2023 - 2027",
+                                "2024 - 2028",
+                                "2025 - 2029",
+                                "2026 - 2030"
+                                ] %}
+
+                                <option value="{{ batch }}" {% if registration and registration.batch==batch
+                                    %}selected{% endif %}>
+                                    {{ batch }}
+                                </option>
+
+                                {% endfor %}
                             </select>
+
                         </div>
 
                         <!-- Branch -->
                         <div class="space-y-2">
-                            <label for="branch" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Branch</label>
+                            <label for="branch"
+                                class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Branch</label>
                             <select id="branch" name="branch" required
                                 class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all appearance-none cursor-pointer">
+                                <!-- saving for normal html and react 
                                 <option value="" disabled selected>Select Branch</option>
                                 <option>Computer Science Engineering</option>
                                 <option>Information Technology</option>
                                 <option>Electronics & Communication</option>
                                 <option>Electrical Engineering</option>
                                 <option>Mechanical Engineering</option>
-                                <option>Civil Engineering</option>
+                                <option>Civil Engineering</option> -->
+
+                                <option value="" disabled {% if not registration %}selected{% endif %}>
+                                    Select Branch
+                                </option>
+
+                                {% for branch in [
+                                "Computer Science Engineering",
+                                "Information Technology",
+                                "Electronics & Communication",
+                                "Electrical Engineering",
+                                "Mechanical Engineering",
+                                "Civil Engineering"
+                                ] %}
+
+                                <option value="{{ branch }}" {% if registration and registration.branch==branch
+                                    %}selected{% endif %}>
+                                    {{ branch }}
+                                </option>
+
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
 
                     <!-- Email Address -->
                     <div class="space-y-2">
-                        <label for="email" class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="Enter email" value="{{ user.email }}" required readonly
-                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all"> <input
-
+                        <label for="email"
+                            class="block text-[10px] font-bold text-zinc-400 uppercase tracking-[0.15em]">Email
+                            Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter email" value="{{ user.email }}"
+                            required readonly
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-600 focus:outline-none focus:border-[#ef233c] focus:bg-white/10 transition-all">
                     </div>
 
                     <!-- Submit Button -->
@@ -332,11 +251,40 @@
 
     <!-- Scripts -->
     <script>
-        const form = document.getElementById("form");
 
+        function showToast() {
+
+            const toast = document.getElementById("toast");
+
+            toast.classList.remove(
+                "translate-y-20",
+                "opacity-0"
+            );
+
+            toast.classList.add(
+                "translate-y-0",
+                "opacity-100"
+            );
+
+            setTimeout(() => {
+
+                toast.classList.remove(
+                    "translate-y-0",
+                    "opacity-100"
+                );
+
+                toast.classList.add(
+                    "translate-y-20",
+                    "opacity-0"
+                );
+
+            }, 2500);
+        }
+
+        const form = document.getElementById("form");
         form.addEventListener("submit", async function (event) {
             event.preventDefault();
-            
+
             // Optional: Add a loading state to the button here if desired
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
@@ -354,9 +302,14 @@
                     },
                     body: JSON.stringify(data)
                 });
-                
-                if (status.ok){
-                    window.location.href = "/";
+
+                if (status.ok) {
+                    showToast();
+
+                    setTimeout(() => {
+                        window.location.href = "/";
+                    }, 2200);
+
                 } else {
                     // Handle error visually if needed
                     submitBtn.innerText = "ERROR - TRY AGAIN";
@@ -377,5 +330,33 @@
             }
         });
     </script>
+
+
+    <div id="toast"
+        class="fixed left-1/2 bottom-6 -translate-x-1/2 translate-y-20 opacity-0 pointer-events-none transition-all duration-500 z-[9999]">
+
+        <div class="flex items-center gap-3
+        bg-zinc-950/90
+        backdrop-blur-xl
+        border border-red-600/30
+        rounded-2xl
+        px-6 py-4
+        shadow-[0_0_30px_rgba(239,35,60,0.25)]">
+
+            <iconify-icon icon="mdi:check-circle" class="text-green-400 text-3xl">
+            </iconify-icon>
+
+            <div>
+                <h3 class="font-semibold text-white">
+                    Registration Successful
+                </h3>
+
+                <p id="toastMessage" class="text-xs text-zinc-400">
+                    Your registration has been saved.
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
