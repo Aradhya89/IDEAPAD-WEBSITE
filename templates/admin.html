@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN PANEL</title>
+    <style>
+        * {
+            background-color: grey;
+            color: white;
+
+        }
+
+        .button {
+            background-color: aqua;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 20px;
+            color: black;
+            border-bottom: 2px white solid;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+        }
+
+        #underproduction {
+            background-color: rgb(235, 183, 183);
+            cursor:not-allowed;
+        }
+
+        .element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="element">
+            <button onclick="window.location.href = '/admin/list'" class="button" 
+                >Registration List</button>
+
+        </div>
+
+        <div class="element">
+            <button onclick = "window.open('https://reportmakerip.up.railway.app/','_blank')" class = "button">Report Maker</button>
+            password = "IDEAPAD"
+        </div>
+
+        <div class="element">
+            <button onclick="window.location.href='/admin/team'" class="button" disabled id="underproduction"> Team Formation</button>
+                        Under Development
+        </div>
+        <div class="element">
+            <button onclick = "window.open('https://attendencesheet.up.railway.app/','_blank')" class = "button"> Attendence Sheet</button>
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>
