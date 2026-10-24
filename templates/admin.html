@@ -1,113 +1,68 @@
-<!-- <label class="block mb-2 font-semibold">Registration Ends</label>
-
-<input
-    type="datetime-local"
-    id="registration-end"
-    name="registration_end"
-    class="w-full rounded-lg border border-gray-300 p-3 bg-zinc-900 text-white"> -->
-
-    <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en"> 
 
 <head>
-
-    <title>Admin Panel</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADMIN PANEL</title>
     <style>
+        * {
+            background-color: grey;
+            color: white;
 
-        body{
-            font-family:Arial;
-            background:#f4f4f4;
-            margin:30px;
         }
 
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
+        .button {
+            background-color: aqua;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 20px;
+            color: black;
+            border-bottom: 2px white solid;
         }
 
-        th,td{
-            border:1px solid #ddd;
-            padding:10px;
-            text-align:left;
+        main {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
         }
 
-        th{
-            background:#222;
-            color:white;
+        #underproduction {
+            background-color: rgb(235, 183, 183);
+            cursor:not-allowed;
         }
 
-        tr:nth-child(even){
-            background:#f9f9f9;
+        .element {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        img{
-            width:45px;
-            height:45px;
-            border-radius:50%;
-        }
-
     </style>
-
 </head>
 
 <body>
+    <main>
+        <div class="element">
+            <button onclick="window.location.href = '/admin/list'" class="button" 
+                >Registration List</button>
 
-<h2>Total Registrations : {{ registrations|length }}</h2>
+        </div>
 
-<table>
+        <div class="element">
+            <button onclick = "window.open('https://reportmakerip.up.railway.app/','_blank')" class = "button">Report Maker</button>
+            password = "IDEAPAD"
+        </div>
 
-<thead>
+        <div class="element">
+            <button onclick="window.location.href='/admin/team'" class="button" disabled id="underproduction"> Team Formation</button>
+                        Under Development
+        </div>
+        <div class="element">
+            <button onclick = "window.open('https://attendencesheet.up.railway.app/','_blank')" class = "button"> Attendence Sheet</button>
+        </div>
 
-<tr>
 
-<th>Photo</th>
-<th>Name</th>
-<th>Email</th>
-<th>Roll No</th>
-<th>Batch</th>
-<th>Branch</th>
-<th>Registered</th>
-<th>Updated</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{% for user in registrations %}
-
-<tr>
-
-<td>
-
-<img src="{{ user.profile_picture }}">
-
-</td>
-
-<td>{{ user.full_name }}</td>
-
-<td>{{ user.email }}</td>
-
-<td>{{ user.rollno }}</td>
-
-<td>{{ user.batch }}</td>
-
-<td>{{ user.branch }}</td>
-
-<td>{{ user.registered_at }}</td>
-
-<td>{{ user.updated_at }}</td>
-
-</tr>
-
-{% endfor %}
-
-</tbody>
-
-</table>
+    </main>
 
 </body>
 

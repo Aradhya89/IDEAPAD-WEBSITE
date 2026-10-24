@@ -8,6 +8,7 @@ import psycopg2
 from psycopg2.pool import SimpleConnectionPool
 from flask import g
 from psycopg2.extras import RealDictCursor
+from functools import wraps
 
 
 
@@ -288,7 +289,7 @@ def require_login():
     if not session.get("user"):
         return redirect(url_for("login"))
         # return redirect(url_for("login", next=request.path))
-        
+print("hello world")
 
 # home page
 @app.route("/")
@@ -349,7 +350,6 @@ def formdata():
 
     #to prevent anyone so send custom email from developer tool
     if data["email"] != logged_in_email:
-
         return {
             "success": False,
             "message": "Email does not match logged in account."
@@ -361,21 +361,53 @@ def formdata():
     }
     
     
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+
+        if session["userdata"]["email"] not in os.getenv("Admin"):
+            return "Access Denied", 403
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
 #for the admin panel
-@app.route("/admin")
-def admin():
 
-    if session["userdata"]["email"] not in os.getenv("Admin"):
-        return "Access Denied", 403
-
+@app.route("/admin/list")
+@admin_required
+def admin_list():
     registrations = database.get_all_registrations()
-    
+   
     return render_template(
-        "admin.html",
+        "adminlist.html",
         registrations=registrations
     )
     
+    
+@app.route("/admin")
+@admin_required 
+def admin_home():
+    return render_template("admin.html")
 
+
+@app.route("/admin/team")
+@admin_required
+def team_formation():
+    registrations = database.get_all_registrations()
+    return render_template(
+        "team_formation.html",
+        registrations=registrations
+    )
+
+# attendence list route
+@app.route("/admin/attendencelist")
+@admin_required
+def attendence_list():
+    return "under production"
+
+
+# Logout Function
 @app.route("/logout")
 def logout():
     if session.get("user"):

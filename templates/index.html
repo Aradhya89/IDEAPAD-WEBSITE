@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -65,8 +65,8 @@
         body {
             background: #090909;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
@@ -156,9 +156,9 @@
 
 
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="#" id="nav-home-link"
+                    <a href="/#" id="nav-home-link"
                         class="text-xs font-semibold tracking-widest hover:text-[#ef233c] transition-all duration-300">HOME</a>
-                    <a href="#" id="nav-events-link"
+                    <a href="#event" id="nav-events-link"
                         class="text-xs font-semibold tracking-widest hover:text-[#ef233c] transition-all duration-300">EVENTS</a>
                 </div>
 
@@ -247,7 +247,7 @@
                     <iconify-icon icon="lucide:x"></iconify-icon>
                 </button> -->
                 <a href="#" class="hover:text-[#ef233c]">HOME</a>
-                <a href="#" class="hover:text-[#ef233c]">EVENTS</a>
+                <a href="#event" class="hover:text-[#ef233c]">EVENTS</a>
                 <a href="#" class="hover:text-[#ef233c]">DASHBOARD</a>
                 <a href="/logout" class="text-sm text-zinc-500">LOGOUT</a>
             </div>
@@ -302,7 +302,7 @@
                             The proving ground for visionaries. 48 hours to bridge imagination and implementation.
                         </p>
                         <div class="flex">
-                            <button id="hero-cta-btn"
+                            <button id="hero-cta-btn" onclick=window.location.href=("#event")
                                 class="px-8 py-4 bg-zinc-900 border border-zinc-800 rounded-2xl hover:border-[#ef233c]/40 transition-all text-xs font-bold tracking-widest uppercase shadow-lg">Explore
                                 All Events</button>
                         </div>
@@ -310,10 +310,10 @@
 
 
                     <div class="relative ">
-                        <div class="absolute -inset-4 bg-[#ef233c]/20 blur-2xl rounded-full opacity-80"></div>
+                        <div class="absolute -inset-4 bg-[#ef233c]/20 blur-2xl rounded-full opacity-80 "></div>
                         <div
-                            class="relative bg-zinc-950/80 border border-white/10 rounded-[2rem] md:rounded-[2.5rem] overflow-hidden shadow-lg">
-                            <div class="h-48 md:h-64 overflow-hidden relative group">
+                            class="relative bg-zinc-950/80 border border-white/10 rounded-[2rem]  md:rounded-[2.5rem] overflow-hidden shadow-lg">
+                            <div class="h-42 md:h-64 overflow-hidden relative group">
                                 <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1200"
                                     alt="Next Event"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
@@ -393,7 +393,7 @@
             </section>
 
             <!-- Stats Section -->
-            <section class="relative py-24 px-6 z-0 relative">
+            <section  class="relative py-24 px-6 z-0 relative">
                 <div class="absolute inset-0 pointer-events-none">
 
                     <div
@@ -431,7 +431,7 @@
             </section>
 
             <!-- Upcoming Hackathons Section -->
-            <section class="relative py-14 px-6">
+            <section id="event" class="relative py-14 px-6  scroll-mt-24">
                 <div class="max-w-7xl mx-auto">
 
                     <h2 class="text-3xl md:text-4xl font-bold font-manrope uppercase tracking-tighter mb-4 text-left">
