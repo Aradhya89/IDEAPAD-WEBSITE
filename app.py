@@ -1,7 +1,7 @@
 # from flask import Flask , render_template , request
 from flask import Flask , render_template, request, redirect, session, url_for
 from authlib.integrations.flask_client import OAuth
-# import pandas as pd
+import pandas as pd
 import os
 import dotenv
 import psycopg2
@@ -56,7 +56,7 @@ class database:
         with conn.cursor() as cur:
 
             cur.execute("""
-                            CREATE TABLE if not exists users (
+    CREATE TABLE if not exists users (
     email VARCHAR(255) PRIMARY KEY,
 
     google_id VARCHAR(50) UNIQUE NOT NULL,
@@ -238,23 +238,41 @@ class database:
             return cur.fetchall()
         
     #to get the dataframe of data for export in csv/pdf/excel
-    @staticmethod
-    def get_export_dataframe():
+    # @staticmethod
+    # def get_export_dataframe():
 
+    #     conn = get_db()
+
+    #     query = """
+    #     SELECT
+    #         full_name AS "Name",
+    #         rollno AS "Roll Number",
+    #         batch AS "Batch",
+    #         branch AS "Branch",
+    #         email AS "Email"
+    #     FROM registrations
+    #     ORDER BY full_name;
+    #     """
+
+    #     return pd.read_sql(query, conn)
+    
+    @staticmethod
+    def get_event():
         conn = get_db()
 
-        query = """
-        SELECT
-            full_name AS "Name",
-            rollno AS "Roll Number",
-            batch AS "Batch",
-            branch AS "Branch",
-            email AS "Email"
-        FROM registrations
-        ORDER BY full_name;
-        """
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
 
-        return pd.read_sql(query, conn)
+            cur.execute("""
+            select *,
+            TO_CHAR(date, 'YYYY-MM-DD') || 'T' || TO_CHAR(time, 'HH24:MI:SS') AS timer_datetime,
+            To_Char(date, 'MON DD, YYYY') as formated_date
+            from events 
+            WHERE (date + time) >= (NOW() AT TIME ZONE 'Asia/Kolkata')
+            order by date limit 4;
+
+            """)
+            
+            return cur.fetchall()
 
 
 
@@ -294,10 +312,11 @@ print("hello world")
 # home page
 @app.route("/")
 def home():
-    event_date = "2026-08-20T10:00:00"
+
     # f"{date}T{time}"
+    data = database.get_event()
     userdata = session.get("userdata",None)
-    return render_template("index.html", user = userdata, event_date = event_date )
+    return render_template("index.html", user = userdata ,event_data = data )
 
 
 
@@ -413,6 +432,12 @@ def logout():
     if session.get("user"):
         session.clear()
     return redirect(url_for("home"))
+
+# @app.route("/testing")
+# def events():
+#     data = database.get_event()
+#     print(data)
+#     return "check console"
 
 if __name__ == "__main__":      
     app.run(host="0.0.0.0", port=8080, debug=True)
