@@ -160,8 +160,8 @@ class database:
 
             cur.execute("""
 
-            INSERT INTO registrations(
-
+            INSERT INTO event_registrations(
+                event_id,
                 email,
                 full_name,
                 rollno,
@@ -170,12 +170,11 @@ class database:
 
             )
 
-            VALUES(%s,%s,%s,%s,%s)
+            VALUES(%s,%s,%s,%s,%s,%s)
 
-            ON CONFLICT(email)
+            ON CONFLICT(email,event_id)
 
             DO UPDATE SET
-
                 full_name = EXCLUDED.full_name,
                 rollno = EXCLUDED.rollno,
                 batch = EXCLUDED.batch,
@@ -183,7 +182,7 @@ class database:
                 updated_at = NOW();
 
             """,(
-
+                data["event_id"],
                 data["email"],
                 data["name"],
                 data["rollno"],
@@ -273,6 +272,20 @@ class database:
             """)
             
             return cur.fetchall()
+    @staticmethod
+    def get_event_form(id):
+    
+        conn = get_db()
+
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+
+            cur.execute("""
+
+            SELECT title, id from events where id =%s
+
+            """,(id,))
+            
+            return cur.fetchone()
 
 
 
@@ -350,14 +363,17 @@ def callback():
 
 
 #event registration form 
-@app.route("/registration")
-def eventform():
+@app.route("/registration/hack/<int:event_id>")
+def eventform(event_id):
     userdata = session.get("userdata")
-    registration = database.get_registration(userdata["email"]) #to making the already submitted data appear on it
+    event_data = database.get_event_form(event_id)
+    registration = database.get_registration(userdata["email"]) #to making the already submitted data appear on itcc
     return render_template(
         "registration.html",
         user=userdata,
-        registration=registration
+        registration=registration,
+        event_data  = event_data
+
     )   
 
 #post of the event form data and saving it to db

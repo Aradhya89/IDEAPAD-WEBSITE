@@ -246,8 +246,8 @@
                     class="absolute top-20 right-10">
                     <iconify-icon icon="lucide:x"></iconify-icon>
                 </button> -->
-                <a href="#" class="hover:text-[#ef233c]">HOME</a>
-                <a href="#event" class="hover:text-[#ef233c]">EVENTS</a>
+                <a href="#" onclick = "toggleMenu()" class="hover:text-[#ef233c]">HOME</a>
+                <a href="#event" onclick = "toggleMenu()" class="hover:text-[#ef233c]">EVENTS</a>
                 <!-- <a href="#" class="hover:text-[#ef233c]">DASHBOARD</a> -->
                 <a href="/logout" class="text-sm text-zinc-500">LOGOUT</a>
             </div>
@@ -299,7 +299,7 @@
                             <!-- <span class="text-zinc-800 opacity-50">SOLOQON</span> -->
                         </h1>
                         <p class="text-base md:text-xl text-zinc-400 max-w-lg mb-8 md:mb-12 font-light leading-relaxed">
-                            The proving ground for visionaries. 48 hours to bridge imagination and implementation.
+                            The proving ground for visionaries to bridge imagination and implementation.
                         </p>
                         <div class="flex">
                             <button id="hero-cta-btn" onclick=window.location.href=("#event")
@@ -381,7 +381,7 @@
                                     </div>
                                 </div>
 
-                                <button id="register-btn" onclick="window.location.href='/registration'"
+                                <button id="register-btn" onclick="window.location.href='/registration/hack/{{event_data[0].id}}'"
                                     class="w-full py-4 md:py-5 bg-[#ef233c] hover:bg-red-700 text-white rounded-2xl text-[10px] font-bold uppercase tracking-[0.3em] transition-all shadow-md active:scale-95">
                                     Register Now
                                 </button>
@@ -408,25 +408,37 @@
                         Key Impact & Metrics</h2>
                     <p class="text-zinc-500 mb-8 text-left text-sm">Measuring success through community growth and
                         innovation output.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div
-                            class="group p-8 border border-white/5 glass-nav rounded-3xl hover:border-[#ef233c]/50  transition-all">
-                            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-3">Hackathons</p>
-                            <h3 class="text-5xl font-black font-manrope text-white transition-colors">10</h3>
-                        </div>
-                        <div
-                            class="group p-8 border border-white/5 glass-nav rounded-3xl hover:border-[#0b5394]/60 transition-all">
-                            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-3">Participants
-                            </p>
-                            <h3 class="text-5xl font-black font-manrope text-white transition-colors">200+</h3>
-                        </div>
-                        <div
-                            class="group p-8 border border-white/5 glass-nav rounded-3xl hover:border-[#ef233c]/50 transition-all">
-                            <p class="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-3">Ideas Selected
-                            </p>
-                            <h3 class="text-5xl font-black font-manrope text-white transition-colors">15</h3>
-                        </div>
-                    </div>
+                    <div class="grid grid-cols-3 gap-3 md:gap-6">
+    <div
+        class="group p-3 sm:p-5 md:p-8 border border-white/5 glass-nav rounded-xl md:rounded-3xl hover:border-[#ef233c]/50 transition-all">
+        <p class="text-zinc-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wide md:tracking-widest mb-3">
+            Hackathons
+        </p>
+        <h3 class="text-2xl sm:text-3xl md:text-5xl font-black font-manrope text-white transition-colors">
+            10
+        </h3>
+    </div>
+
+    <div
+        class="group p-3 sm:p-5 md:p-8 border border-white/5 glass-nav rounded-xl md:rounded-3xl hover:border-[#0b5394]/60 transition-all">
+        <p class="text-zinc-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wide md:tracking-widest mb-3">
+            Participants
+        </p>
+        <h3 class="text-2xl sm:text-3xl md:text-5xl font-black font-manrope text-white transition-colors">
+            200+
+        </h3>
+    </div>
+
+    <div
+        class="group p-3 sm:p-5 md:p-8 border border-white/5 glass-nav rounded-xl md:rounded-3xl hover:border-[#ef233c]/50 transition-all">
+        <p class="text-zinc-500 text-[8px] sm:text-[10px] font-bold uppercase tracking-wide md:tracking-widest mb-3">
+            Ideas Selected
+        </p>
+        <h3 class="text-2xl sm:text-3xl md:text-5xl font-black font-manrope text-white transition-colors">
+            15
+        </h3>
+    </div>
+</div>
                 </div>
             </section>
 
@@ -456,7 +468,7 @@
                                 <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[1].formated_date }}</p>
                                 <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[1].title }} </h4>
                                 <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[1].description }}</p>
-                                <button id="part-2-btn"
+                                <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[1].id}}'"
                                     class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
                             </div>
                         </div>
@@ -472,7 +484,7 @@
                                 <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[2].formated_date }}</p>
                                 <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[2].title }} </h4>
                                 <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[2].description }}</p>
-                                <button id="part-2-btn"
+                                <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[2].id}}'"
                                     class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
                             </div>
                         </div>
@@ -488,7 +500,7 @@
                                 <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[3].formated_date }}</p>
                                 <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[3].title }} </h4>
                                 <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[3].description }}</p>
-                                <button id="part-2-btn"
+                                <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[3].id}}'"
                                     class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
                             </div>
                         </div>
@@ -524,22 +536,22 @@
                         <div class="flex gap-6 px-3">
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1792992419/WhatsApp_Image_2026-10-26_at_10.55.00_AM_fzdyzf.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1792992418/WhatsApp_Image_2026-10-26_at_10.55.01_AM_v2shyq.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1793023495/WhatsApp_Image_2026-10-26_at_7.28.20_PM_nr7tmr.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1793023498/WhatsApp_Image_2026-10-26_at_7.28.19_PM_v0lgvz.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                         </div>
@@ -547,22 +559,22 @@
                         <div class="flex gap-6 px-3">
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1792992419/WhatsApp_Image_2026-10-26_at_10.55.00_AM_fzdyzf.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1792992418/WhatsApp_Image_2026-10-26_at_10.55.01_AM_v2shyq.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1540317580384-e5d43616b9aa?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1793023495/WhatsApp_Image_2026-10-26_at_7.28.20_PM_nr7tmr.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                             <div
                                 class="w-[300px] md:w-[450px] aspect-video rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-500">
-                                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800"
+                                <img src="https://res.cloudinary.com/dehzenar0/image/upload/v1793023498/WhatsApp_Image_2026-10-26_at_7.28.19_PM_v0lgvz.jpg"
                                     class="w-full h-full object-cover" alt="Glimpse">
                             </div>
                         </div>
@@ -598,10 +610,13 @@
                 <div>
                     <h4 class="text-[10px] font-bold text-white uppercase tracking-[0.2em] mb-6">Navigation</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" id="l-1" class="text-[11px] text-zinc-500 hover:text-white">Our Process</a></li>
+                        <!-- <li><a href="#" id="l-1" class="text-[11px] text-zinc-500 hover:text-white">Our Process</a></li>
                         <li><a href="#" id="l-2" class="text-[11px] text-zinc-500 hover:text-white">Past Winners</a>
                         </li>
-                        <li><a href="#" id="l-3" class="text-[11px] text-zinc-500 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" id="l-3" class="text-[11px] text-zinc-500 hover:text-white">Contact Us</a></li> -->
+                        <li><a href="#" id="l-1" class="text-[11px] text-zinc-500 hover:text-white">Home</a></li>
+                        <li><a href="#event" id="l-1" class="text-[11px] text-zinc-500 hover:text-white">Event</a></li>
+
                     </ul>
                 </div>
             </div>
