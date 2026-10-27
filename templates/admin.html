@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADMIN PANEL</title>
     <style>
-        * {
+        body {
             background-color: grey;
             color: white;
 
@@ -37,14 +37,35 @@
             flex-direction: column;
             align-items: center;
         }
+        .dropdownbox {
+            background-color: aqua;
+            padding:10px;
+            border-radius: 10px;
+            display: flex; flex-direction: column; gap:5px;
+        }
+        .item {
+            background-color: rgb(167, 202, 255);
+            padding: 4px;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
+    
     <main>
         <div class="element">
-            <button onclick="window.location.href = '/admin/list'" class="button" 
+            <button id = "listbtn"  class="button" 
                 >Registration List</button>
+            
+            <div class = "dropdownbox hidden" id = "menu">
+                {% for data in event_data %}
+                <a class = "item" href = /admin/list/{{data.id}}>{{data.title}}</a>
+                {% endfor %}
+            </div>
 
         </div>
 
@@ -61,9 +82,23 @@
             <button onclick = "window.open('https://attendencesheet.up.railway.app/','_blank')" class = "button"> Attendence Sheet</button>
         </div>
 
+        <div class = "element">
+            <button onclick="window.location.href='/admin/addevent'" class = "button"> Host an Hackathon </button>
+        </div>
+
 
     </main>
+    <script>
+    const button = document.getElementById('listbtn');
+    const menu = document.getElementById('menu');
+
+    button.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+</script>
+    
 
 </body>
+
 
 </html>

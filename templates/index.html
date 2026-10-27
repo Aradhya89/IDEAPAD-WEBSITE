@@ -456,54 +456,24 @@
                         </div>
 
 
-                        <!-- Card 1 -->
+                        {% for event in event_data[1:] %}
                         <div
                             class="group scale-[0.95] md:scale-[1] bg-zinc-900/40 border border-white/10 rounded-3xl overflow-hidden hover:border-[#ef233c]/20 transition-all">
                             <div class="h-40 overflow-hidden">
-                                <img src="{{ event_data[1].banner }}"
+                                <img src="{{ event.banner }}"
                                     alt="Event 2"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60">
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80">
                             </div>
                             <div class="p-6 md:p-8">
-                                <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[1].formated_date }}</p>
-                                <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[1].title }} </h4>
-                                <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[1].description }}</p>
+                                <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event.formated_date }}</p>
+                                <h4 class="text-lg font-bold mb-3 font-manrope">{{ event.title }} </h4>
+                                <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event.description }}</p>
                                 <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[1].id}}'"
                                     class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
                             </div>
                         </div>
-                        <!-- Card 2 -->
-                        <div
-                            class="group scale-[0.95] md:scale-[1] bg-zinc-900/40 border border-white/10 rounded-3xl overflow-hidden hover:border-[#ef233c]/20 transition-all">
-                            <div class="h-40 overflow-hidden">
-                                <img src="{{ event_data[2].banner }}"
-                                    alt="Event 2"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60">
-                            </div>
-                            <div class="p-6 md:p-8">
-                                <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[2].formated_date }}</p>
-                                <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[2].title }} </h4>
-                                <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[2].description }}</p>
-                                <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[2].id}}'"
-                                    class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
-                            </div>
-                        </div>
-                        <!-- Card 3 -->
-                                                <div
-                            class="group scale-[0.95] md:scale-[1] bg-zinc-900/40 border border-white/10 rounded-3xl overflow-hidden hover:border-[#ef233c]/20 transition-all">
-                            <div class="h-40 overflow-hidden">
-                                <img src="{{ event_data[3].banner }}"
-                                    alt="Event 2"
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60">
-                            </div>
-                            <div class="p-6 md:p-8">
-                                <p class="text-[9px] font-bold text-[#ef233c] uppercase tracking-widest mb-2">{{event_data[3].formated_date }}</p>
-                                <h4 class="text-lg font-bold mb-3 font-manrope">{{ event_data[3].title }} </h4>
-                                <p class="text-zinc-500 text-xs mb-6 line-clamp-2">{{ event_data[3].description }}</p>
-                                <button id="part-2-btn" onclick="window.location.href='/registration/hack/{{event_data[3].id}}'"
-                                    class="w-full py-4 border border-[#ef233c]/30 rounded-xl text-[9px] font-bold uppercase tracking-widest bg-[#ef233c]/5 hover:bg-[#ef233c]/10 transition-all text-[#ef233c]">Participate</button>
-                            </div>
-                        </div>
+                        {% endfor %}
+                    
                     </div>
 
                     <!-- View All Events Centered Box -->

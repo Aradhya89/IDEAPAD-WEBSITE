@@ -5,6 +5,8 @@ import pandas as pd
 import os
 import dotenv
 import psycopg2
+import cloudinary.uploader
+import cloudinary 
 from psycopg2.pool import SimpleConnectionPool
 from flask import g
 from psycopg2.extras import RealDictCursor
@@ -44,40 +46,34 @@ def close_db(exception):
         db_pool.putconn(conn)
 
 
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
+
 
 
 class database:
-    
-    #to create the user login table
+
     @staticmethod
-    def user_table():
+    def addevent(data):
         conn = get_db()
 
-        with conn.cursor() as cur:
+        with conn.cursor( ) as cur:
 
             cur.execute("""
-    CREATE TABLE if not exists users (
-    email VARCHAR(255) PRIMARY KEY,
-
-    google_id VARCHAR(50) UNIQUE NOT NULL,
-
-    full_name VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-
-    profile_picture TEXT,
-
-    email_verified BOOLEAN DEFAULT FALSE,
-
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-
-    last_login TIMESTAMPTZ DEFAULT NOW())
-
-            """)
-
+                        insert into events (title, description, time, date, banner)
+                        values
+                        (%s,%s,%s,%s,%s)
+                        """,(data['title'],
+                             data['description'],
+                             data['time'],
+                             data['date'],
+                             data['banner']))
+        
         conn.commit()
-
-
+            
     #to save the google login data
     @staticmethod
     def save_user(user):
@@ -121,35 +117,7 @@ class database:
             ))
 
         conn.commit()
-
-    #to create the hackathon registration table
-    @staticmethod
-    def registration_table():
-        conn = get_db()
-
-        with conn.cursor() as cur:
-            cur.execute("""
-            CREATE TABLE IF NOT EXISTS registrations(
-
-                email VARCHAR(255) PRIMARY KEY,
-
-                full_name VARCHAR(255) NOT NULL,
-                rollno VARCHAR(50) NOT NULL,
-                batch VARCHAR(30) NOT NULL,
-                branch VARCHAR(100) NOT NULL,
-
-                registered_at TIMESTAMPTZ DEFAULT NOW(),
-                updated_at TIMESTAMPTZ DEFAULT NOW(),
-
-                FOREIGN KEY(email)
-                REFERENCES users(email)
-                ON DELETE CASCADE
-
-            );
-            """)
-
-        conn.commit()
-        
+    
     #to save the registration form data
     @staticmethod
     def save_registration(data):
@@ -194,7 +162,7 @@ class database:
         
     #get the user registration data
     @staticmethod
-    def get_registration(email):
+    def get_registration(email,id):
 
         conn = get_db()
 
@@ -203,16 +171,16 @@ class database:
             cur.execute("""
 
             SELECT *
-            FROM registrations
-            WHERE email=%s
+            FROM event_registrations
+            WHERE email=%s and event_id =%s
 
-            """,(email,))
+            """,(email,id))
 
             return cur.fetchone()
     
     # ADMIN - to get all the data of participants
     @staticmethod
-    def get_all_registrations():
+    def get_event_registrations(id):
 
         conn = get_db()
 
@@ -225,38 +193,30 @@ class database:
                     u.profile_picture,
                     u.last_login
 
-                FROM registrations r
+                FROM event_registrations r
+                
 
                 JOIN users u
                 ON r.email=u.email
+                where event_id = %s
 
                 ORDER BY updated_at DESC
 
-            """)
+            """,(id,))
 
             return cur.fetchall()
-        
-    #to get the dataframe of data for export in csv/pdf/excel
-    # @staticmethod
-    # def get_export_dataframe():
-
-    #     conn = get_db()
-
-    #     query = """
-    #     SELECT
-    #         full_name AS "Name",
-    #         rollno AS "Roll Number",
-    #         batch AS "Batch",
-    #         branch AS "Branch",
-    #         email AS "Email"
-    #     FROM registrations
-    #     ORDER BY full_name;
-    #     """
-
-    #     return pd.read_sql(query, conn)
     
     @staticmethod
-    def get_event():
+    def get_all_event():
+        conn = get_db()
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute("""
+                        select title, id from events;
+                        """)
+            return cur.fetchall()
+    
+    @staticmethod
+    def get_event_home():
         conn = get_db()
 
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
@@ -272,6 +232,7 @@ class database:
             """)
             
             return cur.fetchall()
+        
     @staticmethod
     def get_event_form(id):
     
@@ -292,11 +253,6 @@ class database:
 # authenticator init
 oauth = OAuth(app)
 
-#table creation (check if exist)
-with app.app_context():
-    database.user_table()
-    database.registration_table()
-
 
 # google authenticator setup
 google = oauth.register(
@@ -309,7 +265,9 @@ google = oauth.register(
     }
 )
 
-#to prevent the user to axis unautroised page without login
+# CONFIG FUNCTION
+
+#to prevent the user to access unautroised page without login
 @app.before_request
 def require_login():    
     allowed_routes = ["login","home","googlelogin","callback","logout","static"]
@@ -320,17 +278,27 @@ def require_login():
     if not session.get("user"):
         return redirect(url_for("login"))
         # return redirect(url_for("login", next=request.path))
-print("hello world")
+
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+
+        if session["userdata"]["email"] not in os.getenv("Admin"):
+            return "Access Denied", 403
+
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
 
 # home page
 @app.route("/")
 def home():
-
-    # f"{date}T{time}"
-    data = database.get_event()
+    data = database.get_event_home()
     userdata = session.get("userdata",None)
     return render_template("index.html", user = userdata ,event_data = data )
-
 
 
 # login page
@@ -339,7 +307,8 @@ def login():
     return render_template("login.html")
 
 
-#google login account window
+#google login := 
+
 #send to external website and then redirect to given callback website with data token in it
 @app.route("/googlelogin")
 def googlelogin():
@@ -348,7 +317,6 @@ def googlelogin():
         prompt="select_account"  
     )
     
-
 #data processing after the google login
 @app.route("/callback")
 def callback():
@@ -367,12 +335,12 @@ def callback():
 def eventform(event_id):
     userdata = session.get("userdata")
     event_data = database.get_event_form(event_id)
-    registration = database.get_registration(userdata["email"]) #to making the already submitted data appear on itcc
+    registration = database.get_registration(userdata["email"],event_id) #to making the already submitted data appear on it
     return render_template(
         "registration.html",
         user=userdata,
         registration=registration,
-        event_data  = event_data
+        event_data=event_data
 
     )   
 
@@ -396,23 +364,30 @@ def formdata():
     }
     
     
-def admin_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
 
-        if session["userdata"]["email"] not in os.getenv("Admin"):
-            return "Access Denied", 403
+@app.route("/admin")
+@admin_required 
+def admin_home():
+    eventdata = database.get_all_event()
+    return render_template("admin.html",event_data = eventdata)
 
-        return f(*args, **kwargs)
 
-    return decorated_function
-
-#for the admin panel
-
-@app.route("/admin/list")
+@app.route("/admin/team/<int:id>")
 @admin_required
-def admin_list():
-    registrations = database.get_all_registrations()
+def team_formation():
+    return "Under Production"
+
+
+@app.route("/admin/attendencelist")
+@admin_required
+def attendence_list():
+    return "under production"
+
+
+@app.route("/admin/list/<int:id>")
+@admin_required
+def admin_list(id):
+    registrations = database.get_event_registrations(id)
    
     return render_template(
         "adminlist.html",
@@ -420,27 +395,31 @@ def admin_list():
     )
     
     
-@app.route("/admin")
-@admin_required 
-def admin_home():
-    return render_template("admin.html")
-
-
-@app.route("/admin/team")
+@app.route("/admin/addevent",methods = ["GET","POST"])
 @admin_required
-def team_formation():
-    registrations = database.get_all_registrations()
-    return render_template(
-        "team_formation.html",
-        registrations=registrations
-    )
+def addevent():
+    if request.method == "POST":
+        data = {}
+        data['description'] = request.form.get("description")
+        data['time'] = request.form.get("time")
+        data['date'] = request.form.get("date")
+        banner = request.files.get("banner")
+        data['title']= request.form.get("title")
+        
+        # 1. Upload the banner to Cloudinary.
+        result = cloudinary.uploader.upload(banner,
+        folder="ideapad/events", #folder name
+        resource_type="image",
+        quality="auto"
+        )
 
-# attendence list route
-@app.route("/admin/attendencelist")
-@admin_required
-def attendence_list():
-    return "under production"
-
+        data['banner'] = result["secure_url"]
+        database.addevent(data)
+        data['banner_public_id'] = result["public_id"]
+        
+        return redirect(url_for("admin_home"))
+    
+    return render_template("hostevent.html")
 
 # Logout Function
 @app.route("/logout")
@@ -449,11 +428,6 @@ def logout():
         session.clear()
     return redirect(url_for("home"))
 
-# @app.route("/testing")
-# def events():
-#     data = database.get_event()
-#     print(data)
-#     return "check console"
 
 if __name__ == "__main__":      
     app.run(host="0.0.0.0", port=8080, debug=True)
