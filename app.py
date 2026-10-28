@@ -1,5 +1,5 @@
 # from flask import Flask , render_template , request
-from flask import Flask , render_template, request, redirect, session, url_for
+from flask import Flask , render_template, request, redirect, session, url_for, send_file, after_this_request
 from authlib.integrations.flask_client import OAuth
 import pandas as pd
 import os
@@ -11,6 +11,11 @@ from psycopg2.pool import SimpleConnectionPool
 from flask import g
 from psycopg2.extras import RealDictCursor
 from functools import wraps
+from datetime import datetime
+import tempfile
+from word2pdf import convert
+from docxtpl import DocxTemplate
+import shutil
 
 
 
@@ -118,6 +123,17 @@ class database:
 
         conn.commit()
     
+    
+    @staticmethod
+    def attendencesheet(id):
+        conn = get_db()
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            cur.execute('''
+                        Select full_name as "Name", rollno as "RollNo" from event_registrations where event_id = %s order by "Name" Asc;
+                        ''',(id,))
+            return cur.fetchall()
+            
+            
     #to save the registration form data
     @staticmethod
     def save_registration(data):
@@ -242,7 +258,7 @@ class database:
 
             cur.execute("""
 
-            SELECT title, id from events where id =%s
+            SELECT title, id, date from events where id =%s
 
             """,(id,))
             
@@ -378,10 +394,43 @@ def team_formation():
     return "Under Production"
 
 
-@app.route("/admin/attendencelist")
+@app.route("/admin/attendencelist",methods= ["POST"])
 @admin_required
 def attendence_list():
-    return "under production"
+    data = request.get_json()
+    event_id = data.get("id")
+    data = database.attendencesheet(event_id)
+    event_data = database.get_event_form(event_id)
+
+    formatted_date = datetime.strptime(str(event_data['date']), "%Y-%m-%d").strftime("%d %b %Y")
+    UPLOAD_FOLDER = tempfile.mkdtemp()
+    context = {
+        "students": data,
+        "event": event_data['title'],
+        "date":formatted_date
+    }
+        
+    doc = DocxTemplate("template.docx")
+    doc.render(context)
+    output_path_docx = os.path.join(UPLOAD_FOLDER,"Attendence_list.docx")
+    output_path_pdf = os.path.join(UPLOAD_FOLDER,"Attendence_list.pdf")# adding the path of the temp folder with the report stored temporarly
+
+    doc.save(output_path_docx)
+    convert(output_path_docx, output_path_pdf)
+    
+    @after_this_request
+    def cleanup(response):
+        try:
+            shutil.rmtree(UPLOAD_FOLDER, ignore_errors=True)
+        except Exception as e:
+            print("Cleanup error:", e)
+        return response
+
+    return send_file(
+        output_path_pdf,    
+        as_attachment=True,
+        download_name="Attendence.pdf"
+    )
 
 
 @app.route("/admin/list/<int:id>")
@@ -391,7 +440,8 @@ def admin_list(id):
    
     return render_template(
         "adminlist.html",
-        registrations=registrations
+        registrations=registrations,
+        id = id
     )
     
     

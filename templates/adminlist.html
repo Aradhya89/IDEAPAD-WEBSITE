@@ -107,8 +107,42 @@
 
 </tbody>
 
-</table>
 
+</table>
+<button type="button" id = "pdfbtn" onclick="generatePDF( {{ id }} )">
+    Generate PDF
+</button>
+<script>
+    async function generatePDF(id) {
+    const btn = document.getElementById("pdfbtn");
+    btn.textContent = "Generating...";
+    btn.disabled = true;
+    const response = await fetch("/admin/attendencelist", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: id })
+    });
+
+    if (!response.ok) {
+        alert("Failed to generate PDF");
+        return;
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "AttendenceSheet.pdf";
+    a.click();
+
+    btn.disabled = false;
+    btn.textContent = "Generate PDF";
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+</script>
 </body>
 
 </html>
